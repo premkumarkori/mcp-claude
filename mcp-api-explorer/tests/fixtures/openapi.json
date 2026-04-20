@@ -1,0 +1,102 @@
+{
+  "openapi": "3.0.1",
+  "info": {"title": "MCP Sample API", "version": "0.1.0"},
+  "paths": {
+    "/employees": {
+      "get": {
+        "tags": ["Employees"],
+        "operationId": "listEmployees",
+        "summary": "List employees, optionally filtered by join date",
+        "parameters": [
+          {
+            "name": "joinedAfter",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string", "format": "date-time"}
+          }
+        ],
+        "responses": {"200": {"description": "ok"}}
+      },
+      "post": {
+        "tags": ["Employees"],
+        "operationId": "createEmployee",
+        "summary": "Create a new employee",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email"],
+                "properties": {
+                  "name": {"type": "string"},
+                  "email": {"type": "string", "format": "email"},
+                  "joinedAt": {"type": "string", "format": "date-time"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {"201": {"description": "created"}}
+      }
+    },
+    "/employees/{id}": {
+      "get": {
+        "tags": ["Employees"],
+        "operationId": "getEmployee",
+        "summary": "Get a single employee by id",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {"200": {"description": "ok"}}
+      },
+      "delete": {
+        "tags": ["Employees"],
+        "operationId": "deleteEmployee",
+        "summary": "Delete an employee by id",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {"204": {"description": "deleted"}}
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "operationId": "listOrders",
+        "summary": "List orders, optionally filtered by status",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string", "enum": ["PENDING", "SHIPPED", "CANCELLED"]}
+          }
+        ],
+        "responses": {"200": {"description": "ok"}}
+      },
+      "post": {
+        "tags": ["Orders"],
+        "operationId": "createOrder",
+        "summary": "Create a new order",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerName", "amount"],
+                "properties": {
+                  "customerName": {"type": "string"},
+                  "amount": {"type": "number"},
+                  "status": {"type": "string", "enum": ["PENDING", "SHIPPED", "CANCELLED"]}
+                }
+              }
+            }
+          }
+        },
+        "responses": {"201": {"description": "created"}}
+      }
+    }
+  }
+}
