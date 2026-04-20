@@ -112,10 +112,18 @@ async def _with_db(settings: Settings):
 
 @pytest.mark.asyncio
 async def test_readonly_role_blocks_insert(settings):
-    """Layer 1 proof: the DB itself rejects writes for mcp_readonly."""
+    """Layer 1 proof: the DB itself rejects writes for mcp_readonly.
+
+    Either `InsufficientPrivilegeError` (no GRANT to write to the table) or
+    `ReadOnlySQLTransactionError` (session forced read-only) is acceptable —
+    both are guardrails we rely on. In practice the read-only transaction
+    fires first because of `ALTER ROLE ... SET default_transaction_read_only`.
+    """
     conn = await asyncpg.connect(settings.db_url)
     try:
-        with pytest.raises(asyncpg.InsufficientPrivilegeError):
+        with pytest.raises(
+            (asyncpg.InsufficientPrivilegeError, asyncpg.ReadOnlySQLTransactionError)
+        ):
             await conn.execute(
                 "INSERT INTO employees(name,email) VALUES ('x','x@x.com')"
             )

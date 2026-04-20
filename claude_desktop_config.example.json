@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "api-explorer": {
+      "command": "/ABSOLUTE/PATH/TO/mcp-claude/mcp-api-explorer/.venv/bin/mcp-api-explorer",
+      "env": {
+        "API_BASE_URL": "http://localhost:8080",
+        "OPENAPI_PATH": "/v3/api-docs",
+        "ALLOW_CALL": "false",
+        "ALLOW_MUTATING_CALLS": "false",
+        "CALL_BASE_URL_ALLOWLIST": "http://localhost:8080"
+      }
+    },
+    "analytics": {
+      "command": "/ABSOLUTE/PATH/TO/mcp-claude/mcp-analytics/.venv/bin/mcp-analytics",
+      "env": {
+        "DB_URL": "postgresql://mcp_readonly:mcp_readonly_change_me@localhost:5432/appdb",
+        "TABLE_ALLOWLIST": "v_employees_safe,v_orders_safe",
+        "ROW_CAP": "1000",
+        "INLINE_ROW_THRESHOLD": "50",
+        "AUDIT_LOG_PATH": "/ABSOLUTE/PATH/TO/mcp-claude/mcp-analytics/audit/queries.jsonl",
+        "EXPORT_DIR": "/ABSOLUTE/PATH/TO/mcp-claude/mcp-analytics/exports"
+      }
+    }
+  }
+}
