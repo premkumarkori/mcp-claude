@@ -1,0 +1,42 @@
+# Claude Code local settings (user-specific)
+.claude/settings.local.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Java / Maven / Gradle (for future springboot-api/)
+target/
+.gradle/
+build/
+*.class
+
+# Audit & exports (runtime artifacts; never commit data)
+audit/
+exports/
+
+# Logs
+*.log
