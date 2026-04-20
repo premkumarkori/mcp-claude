@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: mcp-sample-api
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:appdb}
+    username: ${DB_USER:app}
+    password: ${DB_PASSWORD:app}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate   # Flyway owns the schema; JPA only validates
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    placeholders:
+      mcp_readonly_password: ${MCP_READONLY_PASSWORD:mcp_readonly_change_me}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
